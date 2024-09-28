@@ -10,6 +10,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.init.Projectiles;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
@@ -38,6 +39,7 @@ public class SilentProjectile extends Entity implements IFlexibleSizeProjectile 
 
     public void defineSynchedData() {
         this.entityData.define(SIZE, 1f);
+        this.entityData.define(OWNER, -1);
     }
 
     public float getSize() {

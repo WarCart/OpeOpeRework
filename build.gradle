@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.1-BETA'
+version = '0.1.1-BETA'
 group = 'net.warcar.ope_ope_rework'
 archivesBaseName = 'ope_ope_rework'
 
@@ -140,7 +140,7 @@ dependencies {
 
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:5589898")
+    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:5762433")
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

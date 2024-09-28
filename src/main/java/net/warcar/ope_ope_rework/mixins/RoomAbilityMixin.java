@@ -135,6 +135,15 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
                 && DevilFruitCapability.get(Minecraft.getInstance().player).hasAwakenedFruit()));
     }
 
+    @Inject(method = "getCenterBlock", at = @At("HEAD"), remap = false, cancellable = true)
+    private void newCenter(CallbackInfoReturnable<BlockPos> cir) {
+        if (this.room == null) {
+            cir.setReturnValue(null);
+        } else {
+            cir.setReturnValue(this.room.blockPosition().above((int) (this.room.getSize() / 2)));
+        }
+    }
+
     public boolean isRRoom() {
         return this.modeComponent.isMode(RoomProjectile.RoomMode.R_ROOM);
     }
