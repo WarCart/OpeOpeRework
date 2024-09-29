@@ -71,7 +71,7 @@ public class SphereRenderer extends ModelRenderer {
             vertices.add(new Vertex(sphereCenter.x() + -0.723607f * sphereSize.x(), sphereCenter.y() + 0.44722f * sphereSize.y(), sphereCenter.z() + -0.525725f * sphereSize.z(), 0.886364f, 0.039365f));
             vertices.add(new Vertex(sphereCenter.x() + 0.276388f * sphereSize.x(), sphereCenter.y() + 0.44722f * sphereSize.y(), sphereCenter.z() + -0.850649f * sphereSize.z(), 0.727273f, 0.0f));
             vertices.add(new Vertex(sphereCenter.x() + 0.894426f * sphereSize.x(), sphereCenter.y() + 0.447216f * sphereSize.y(), sphereCenter.z() + 0.0f * sphereSize.z(), 0.75f, 0.039365f));
-            vertices.add(new Vertex(sphereCenter.x() + 0.0f * sphereSize.x(), sphereCenter.y() + 1.0f * sphereSize.y(), sphereCenter.z() + 0.0f * sphereSize.z(), 0.704546f, 0.039365f));
+            vertices.add(new Vertex(sphereCenter.x() + 0.0f * sphereSize.x(), sphereCenter.y() + sphereSize.y(), sphereCenter.z() + 0.0f * sphereSize.z(), 0.704546f, 0.039365f));
             vertices.add(new Vertex(sphereCenter.x() + -0.232822f * sphereSize.x(), sphereCenter.y() + -0.657519f * sphereSize.y(), sphereCenter.z() + 0.716563f * sphereSize.z(), 0.545455f, 0.0f));
             vertices.add(new Vertex(sphereCenter.x() + -0.162456f * sphereSize.x(), sphereCenter.y() + -0.850654f * sphereSize.y(), sphereCenter.z() + 0.499995f * sphereSize.z(), 0.568182f, 0.039365f));
             vertices.add(new Vertex(sphereCenter.x() + -0.077607f * sphereSize.x(), sphereCenter.y() + -0.96795f * sphereSize.y(), sphereCenter.z() + 0.238853f * sphereSize.z(), 0.522728f, 0.039365f));
@@ -109,7 +109,7 @@ public class SphereRenderer extends ModelRenderer {
             vertices.add(new Vertex(sphereCenter.x() + 0.951058f * sphereSize.x(), sphereCenter.y() + 0.0f * sphereSize.y(), sphereCenter.z() + -0.309013f * sphereSize.z(), 0.409091f, 0.314921f));
             vertices.add(new Vertex(sphereCenter.x() + 0.956626f * sphereSize.x(), sphereCenter.y() + 0.251149f * sphereSize.y(), sphereCenter.z() + -0.147618f * sphereSize.z(), 0.386364f, 0.354286f));
             vertices.add(new Vertex(sphereCenter.x() + 0.155215f * sphereSize.x(), sphereCenter.y() + 0.251152f * sphereSize.y(), sphereCenter.z() + 0.955422f * sphereSize.z(), 0.431819f, 0.433017f));
-            vertices.add(new Vertex(sphereCenter.x() + 0.0f * sphereSize.x(), sphereCenter.y() + -0.0f * sphereSize.y(), sphereCenter.z() + 1.0f * sphereSize.z(), 0.477273f, 0.433017f));
+            vertices.add(new Vertex(sphereCenter.x() + 0.0f * sphereSize.x(), sphereCenter.y() + -0.0f * sphereSize.y(), sphereCenter.z() + sphereSize.z(), 0.477273f, 0.433017f));
             vertices.add(new Vertex(sphereCenter.x() + -0.155215f * sphereSize.x(), sphereCenter.y() + -0.251152f * sphereSize.y(), sphereCenter.z() + 0.955422f * sphereSize.z(), 0.454546f, 0.472382f));
             vertices.add(new Vertex(sphereCenter.x() + 0.687159f * sphereSize.x(), sphereCenter.y() + -0.251152f * sphereSize.y(), sphereCenter.z() + 0.681715f * sphereSize.z(), 0.409091f, 0.393651f));
             vertices.add(new Vertex(sphereCenter.x() + 0.587786f * sphereSize.x(), sphereCenter.y() + 0.0f * sphereSize.y(), sphereCenter.z() + 0.809017f * sphereSize.z(), 0.454546f, 0.393651f));
@@ -204,7 +204,7 @@ public class SphereRenderer extends ModelRenderer {
             vertices.add(new Vertex(sphereCenter.x() + 0.309017f * sphereSize.x(), sphereCenter.y() + 0.0f * sphereSize.y(), sphereCenter.z() + 0.951056f * sphereSize.z(), 0.568182f, 0.196826f));
             vertices.add(new Vertex(sphereCenter.x() + 0.138199f * sphereSize.x(), sphereCenter.y() + -0.276398f * sphereSize.y(), sphereCenter.z() + 0.951055f * sphereSize.z(), 0.545455f, 0.157461f));
             vertices.add(new Vertex(sphereCenter.x() + 0.447216f * sphereSize.x(), sphereCenter.y() + -0.276398f * sphereSize.y(), sphereCenter.z() + 0.850648f * sphereSize.z(), 0.590909f, 0.157461f));
-            vertices.add(new Vertex(sphereCenter.x() + 1.0f * sphereSize.x(), sphereCenter.y() + 0.0f * sphereSize.y(), sphereCenter.z() + 0.0f * sphereSize.z(), 0.727273f, 0.236191f));
+            vertices.add(new Vertex(sphereCenter.x() + sphereSize.x(), sphereCenter.y() + 0.0f * sphereSize.y(), sphereCenter.z() + 0.0f * sphereSize.z(), 0.727273f, 0.236191f));
             vertices.add(new Vertex(sphereCenter.x() + 0.947213f * sphereSize.x(), sphereCenter.y() + -0.276396f * sphereSize.y(), sphereCenter.z() + 0.162458f * sphereSize.z(), 0.704546f, 0.196826f));
             vertices.add(new Vertex(sphereCenter.x() + 0.947213f * sphereSize.x(), sphereCenter.y() + -0.276396f * sphereSize.y(), sphereCenter.z() + -0.162458f * sphereSize.z(), 0.75f, 0.196826f));
             vertices.add(new Vertex(sphereCenter.x() + 0.361803f * sphereSize.x(), sphereCenter.y() + -0.723612f * sphereSize.y(), sphereCenter.z() + -0.587779f * sphereSize.z(), 0.727273f, 0.157461f));

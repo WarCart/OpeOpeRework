@@ -3,6 +3,7 @@
   "package": "net.warcar.ope_ope_rework.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "CommandMixin",
     "EventCancelerMixin",
     "ModAbilitiesMixin",
     "OpeHelperMixin",

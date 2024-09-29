@@ -2,5 +2,8 @@
   "ability.mineminenomi.k_room": "K-Room",
   "ability.mineminenomi.calm": "Calm",
   "ability.mineminenomi.amputate": "Amputate",
-  "ability.ope_ope_rework.silent.description.0": "Creates silent zone around user, sound can't escape it or come in"
+  "ability.mineminenomi.furo_shujutsu": "Furō Shujutsu",
+  "ability.ope_ope_rework.silent.description.0": "Creates silent zone around user, sound can't escape it or come in",
+  "ability.ope_ope_rework.k_room.description.0": "Coats your sword with room, lengthening it, after sends thru devastating shockwave",
+  "ability.ope_ope_rework.furo_shujutsu.description.0": "An Immortality operation, grants target infinite youth, but costs your life"
 }

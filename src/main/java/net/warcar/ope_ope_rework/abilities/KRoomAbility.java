@@ -4,14 +4,21 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.init.Abilities;
 import net.warcar.ope_ope_rework.projectiles.KRoomProjectile;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import xyz.pixelatedw.mineminenomi.api.abilities.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ChargeComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.PoolComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ProjectileComponent;
+import xyz.pixelatedw.mineminenomi.api.damagesource.SourceElement;
+import xyz.pixelatedw.mineminenomi.api.damagesource.SourceHakiNature;
+import xyz.pixelatedw.mineminenomi.api.damagesource.SourceType;
+import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
 import xyz.pixelatedw.mineminenomi.api.helpers.DevilFruitHelper;
 import xyz.pixelatedw.mineminenomi.api.helpers.ItemsHelper;
 import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
@@ -21,8 +28,10 @@ import xyz.pixelatedw.mineminenomi.init.ModEffects;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
 
 public class KRoomAbility extends Ability {
+    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText(OpeReworkMod.MOD_ID, "k_room", ImmutablePair.of("", null));
     public static final AbilityCore<KRoomAbility> INSTANCE = new AbilityCore.Builder<>("K-Room", "k_room", AbilityCategory.DEVIL_FRUITS, AbilityType.ACTION, KRoomAbility::new)
-            .setUnlockCheck(KRoomAbility::canUnlock).build();
+            .setSourceType(SourceType.INTERNAL, SourceType.INDIRECT).setSourceElement(SourceElement.SHOCKWAVE).setSourceHakiNature(SourceHakiNature.IMBUING)
+            .setUnlockCheck(KRoomAbility::canUnlock).addDescriptionLine(DESCRIPTION).build();
     private final ProjectileComponent projectileComponent;
     private final ChargeComponent chargeComponent;
     private final ContinuousComponent continuousComponent;

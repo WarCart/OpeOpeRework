@@ -1,0 +1,24 @@
+{
+  "parent": "mineminenomi:devil_fruits/root",
+  "display": {
+    "icon": {
+      "item": "mineminenomi:ope_ope_no_mi"
+    },
+    "title": {
+      "text": "Wait, isn't it..."
+    },
+    "description": {
+      "text": "Completely useless"
+    },
+    "hidden": true,
+    "frame": "challenge"
+  },
+  "criteria": {
+    "compete_operation": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    ["compete_operation"]
+  ]
+}
