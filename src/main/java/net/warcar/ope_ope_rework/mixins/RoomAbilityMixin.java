@@ -75,6 +75,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
                 room.setMaxSize(14);
                 this.roomSize = 14;
                 room.setTarget(rayTraceEntities.getEntity());
+                room.tick();
                 entity.level.addFreshEntity(room);
                 this.continuousComponent.startContinuity(entity, -1);
                 this.poolComponent.startPoolInUse(entity);

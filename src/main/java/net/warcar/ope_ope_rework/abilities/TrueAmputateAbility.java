@@ -3,6 +3,7 @@ package net.warcar.ope_ope_rework.abilities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.warcar.ope_ope_rework.projectiles.RealSlashProjectile;
 import xyz.pixelatedw.mineminenomi.abilities.ope.RoomAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
@@ -21,7 +22,7 @@ public class TrueAmputateAbility extends Ability {
 
     public TrueAmputateAbility(AbilityCore<TrueAmputateAbility> core) {
         super(core);
-        projectileComponent = new ProjectileComponent(this, entity -> new SpatialSlashProjectile(entity.level, entity));
+        projectileComponent = new ProjectileComponent(this, entity -> new RealSlashProjectile(entity.level, entity));
         this.addComponents(projectileComponent);
         this.isNew = true;
         this.addUseEvent(this::onUse);
