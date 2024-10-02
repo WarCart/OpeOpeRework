@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.1.1-BETA'
+version = ''
 group = 'net.warcar.ope_ope_rework'
 archivesBaseName = 'ope_ope_rework'
 
@@ -132,7 +132,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -140,7 +140,8 @@ dependencies {
 
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:5762433")
+    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:4682386")
+    implementation fg.deobf("curse.maven:devil-fruit-progression-1023617:5389999")
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

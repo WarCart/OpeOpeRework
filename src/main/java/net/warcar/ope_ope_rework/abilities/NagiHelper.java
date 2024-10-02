@@ -16,7 +16,7 @@ public class NagiHelper {
         if (user.hasEffect(ModEffects.SILENT.get())) {
             return false;
         }
-        List<SilentProjectile> silentProj = WyHelper.getNearbyEntities(user.position(), user.level, 10, null, SilentProjectile.class);
+        List<SilentProjectile> silentProj = WyHelper.getNearbyEntities(user.blockPosition(), user.level, 10, null, SilentProjectile.class);
         if (!silentProj.isEmpty()) {
             for (SilentProjectile roomProjectile : silentProj) {
                 if ((roomProjectile.closerThan(user, roomProjectile.getSize()) && !roomProjectile.position().closerThan(target.position(), roomProjectile.getSize())) || (!roomProjectile.closerThan(user, roomProjectile.getSize()) && roomProjectile.position().closerThan(target.position(), roomProjectile.getSize()))) {
@@ -24,7 +24,7 @@ public class NagiHelper {
                 }
             }
         }
-        List<RoomProjectile> roomProj = WyHelper.getNearbyEntities(user.position(), user.level, 40, null, RoomProjectile.class);
+        List<RoomProjectile> roomProj = WyHelper.getNearbyEntities(user.blockPosition(), user.level, 40, null, RoomProjectile.class);
         if (!roomProj.isEmpty()) {
             for (RoomProjectile roomProjectile : roomProj) {
                 IAbilityData abilityData = AbilityDataCapability.get(roomProjectile.getOwner());

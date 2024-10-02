@@ -1,30 +1,18 @@
 package net.warcar.ope_ope_rework.abilities;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.projectiles.SilentProjectile;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
-import xyz.pixelatedw.mineminenomi.api.abilities.components.ChargeComponent;
-import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
-import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
 
 public class SilentAbility extends Ability {
-    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText(OpeReworkMod.MOD_ID, "silent", ImmutablePair.of("Creates silent zone around user, sound can't escape it or come in", null));
-    public static final AbilityCore<SilentAbility> INSTANCE = new AbilityCore.Builder<>("Silent", AbilityCategory.DEVIL_FRUITS, SilentAbility::new).addDescriptionLine(DESCRIPTION).build();
-    private final ChargeComponent chargeComponent;
-    private final ContinuousComponent continuousComponent;
+    public static final AbilityCore<SilentAbility> INSTANCE = new AbilityCore.Builder<>("Silent", AbilityCategory.DEVIL_FRUITS, SilentAbility::new).addDescriptionLine("").build();
     private SilentProjectile silentProjectile;
 
     public SilentAbility(AbilityCore<SilentAbility> core) {
         super(core);
-        chargeComponent = new ChargeComponent(this, true);
-        continuousComponent = new ContinuousComponent(this, true);
         this.addUseEvent((entity, ability) -> {
             if (this.continuousComponent.isContinuous()) {
                 this.continuousComponent.stopContinuity(entity);

@@ -1,65 +1,57 @@
 package net.warcar.ope_ope_rework.abilities;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.text.ITextComponent;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
-import xyz.pixelatedw.mineminenomi.api.abilities.PunchAbility2;
-import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
-import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
+import xyz.pixelatedw.mineminenomi.api.abilities.HitAbility;
 import xyz.pixelatedw.mineminenomi.init.ModEffects;
+import xyz.pixelatedw.mineminenomi.packets.server.ability.SUpdateEquippedAbilityPacket;
+import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
-import java.util.function.Predicate;
-
-public class CalmAbility extends PunchAbility2 {
-    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText("mineminenomi", "silent", ImmutablePair.of("Cancels all noises caused by or around the user.", null));
-    public static final AbilityCore<CalmAbility> INSTANCE = new AbilityCore.Builder<>("Calm", AbilityCategory.DEVIL_FRUITS, CalmAbility::new).addDescriptionLine(DESCRIPTION).build();
+public class CalmAbility extends HitAbility {
+    public static final AbilityCore<CalmAbility> INSTANCE = new AbilityCore.Builder<>("Calm", AbilityCategory.DEVIL_FRUITS, CalmAbility::new).addDescriptionLine("Cancels all noises caused by or around the user.").build();
 
     private LivingEntity target = null;
     public CalmAbility(AbilityCore<CalmAbility> core) {
         super(core);
-        this.hitTriggerComponent.setBypassSameGroupProtection();
-        this.continuousComponent.addTickEvent((livingEntity, iAbility) -> {
-            if (target != null) {
-                target.addEffect(new EffectInstance(ModEffects.SILENT.get(), 20, 0, false, false));
-            }
-        });
-        this.continuousComponent.addEndEvent((entity, iAbility) -> {
-            if (target != null) {
-                this.target.setSilent(false);
-            }
-            this.target = null;
-        });
-        this.addUseEvent((entity, ability) -> {
-            if (entity.isSteppingCarefully()) {
-                this.target = entity;
-                this.continuousComponent.stopContinuity(entity);
-            }
-        });
+        this.onHitEntityEvent = this::onHitEffect;
+        this.duringContinuityEvent = this::duringContinuity;
+        this.afterContinuityStopEvent = this::afterContinuityStop;
+        this.onStartContinuityEvent = this::onStartContinuity;
+        this.setMaxCooldown(100);
+        this.setStoppingAfterHit(false);
     }
 
-    public float getPunchCooldown() {
-        return 100;
+    public float onHitEffect(PlayerEntity entity, LivingEntity target) {
+        if (this.target == null) {
+            this.target = target;
+            this.target.setSilent(true);
+            WyNetwork.sendToAllTrackingAndSelf(new SUpdateEquippedAbilityPacket(entity, this), entity);
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
-    public void onHitEffect(LivingEntity entity, LivingEntity target, ModDamageSource modDamageSource) {
-        this.target = target;
-        this.target.setSilent(true);
+    private boolean onStartContinuity(PlayerEntity entity) {
+        if (entity.isSteppingCarefully()) {
+            this.target = entity;
+        }
+        return true;
     }
 
-    public Predicate<LivingEntity> canActivate() {
-        return entity -> this.isContinuous() && this.target == null;
+    private void afterContinuityStop(PlayerEntity entity) {
+        if (target != null) {
+            this.target.setSilent(false);
+        }
+        this.target = null;
     }
 
-    @Override
-    public float getPunchDamage() {
-        return -1;
-    }
-
-    public int getUseLimit() {
-        return 0;
+    private void duringContinuity(PlayerEntity livingEntity, int i) {
+        if (target != null) {
+            target.addEffect(new EffectInstance(ModEffects.SILENT.get(), 20, 0, false, false));
+        }
     }
 }

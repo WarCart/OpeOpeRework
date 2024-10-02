@@ -3,18 +3,9 @@
   "package": "net.warcar.ope_ope_rework.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CommandMixin",
-    "EventCancelerMixin",
-    "ModAbilitiesMixin",
-    "OpeHelperMixin",
-    "RoomAbilityMixin",
-    "SilentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "mixins.fruit_progression.refmap.json",
-  "client": [
-    "EntityTickableSoundMixin"
-  ]
+  "refmap": "mixins.fruit_progression.refmap.json"
 }
