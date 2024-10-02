@@ -64,10 +64,12 @@ public class ClientEvents {
         List<RoomProjectile> roomProj = WyHelper.getNearbyEntities(player.position(), mc.level, 40, null, RoomProjectile.class);
         if (!roomProj.isEmpty()) {
             for (RoomProjectile roomProjectile : roomProj) {
-                IAbilityData abilityData = AbilityDataCapability.get(roomProjectile.getOwner());
-                RoomAbility ability = abilityData.getEquippedAbility(RoomAbility.INSTANCE);
-                if ((ability != null && ((IRoomMixin) ability).isRRoom()) && ((roomProjectile.closerThan(player, roomProjectile.getSize()) && !roomProjectile.position().closerThan(soundPos, roomProjectile.getSize())) || (!roomProjectile.closerThan(player, roomProjectile.getSize()) && roomProjectile.position().closerThan(soundPos, roomProjectile.getSize())))) {
-                    return true;
+                if (roomProjectile.getOwner() != null) {
+                    IAbilityData abilityData = AbilityDataCapability.get(roomProjectile.getOwner());
+                    RoomAbility ability = abilityData.getEquippedAbility(RoomAbility.INSTANCE);
+                    if ((ability != null && ((IRoomMixin) ability).isRRoom()) && ((roomProjectile.closerThan(player, roomProjectile.getSize()) && !roomProjectile.position().closerThan(soundPos, roomProjectile.getSize())) || (!roomProjectile.closerThan(player, roomProjectile.getSize()) && roomProjectile.position().closerThan(soundPos, roomProjectile.getSize())))) {
+                        return true;
+                    }
                 }
             }
         }

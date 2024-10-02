@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.models.SphereModel;
@@ -17,6 +19,7 @@ import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
 import xyz.pixelatedw.mineminenomi.init.ModRenderTypes;
 import xyz.pixelatedw.mineminenomi.renderers.abilities.AbilityProjectileRenderer;
 
+@OnlyIn(Dist.CLIENT)
 public class RoomRenderer<T extends RoomProjectile, M extends EntityModel<T>> extends EntityRenderer<T> {
     public RoomRenderer(EntityRendererManager renderManager) {
         super(renderManager);

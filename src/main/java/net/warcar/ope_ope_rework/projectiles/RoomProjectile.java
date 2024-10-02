@@ -9,8 +9,11 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.warcar.ope_ope_rework.OpeReworkMod;
+import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.init.Projectiles;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
@@ -60,7 +63,7 @@ public class RoomProjectile extends Entity implements IFlexibleSizeProjectile {
         }
         Entity target = this.getTarget();
         if (target != null) {
-            this.teleportTo(target.getX(), target.getY() - this.getSize() / 2, target.getZ());
+            this.teleportTo(target.getX(), target.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : this.getSize()), target.getZ());
         }
     }
 
@@ -99,6 +102,17 @@ public class RoomProjectile extends Entity implements IFlexibleSizeProjectile {
 
     public float getSize() {
         return this.entityData.get(SIZE);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public boolean shouldRender(double p_145770_1_, double p_145770_3_, double p_145770_5_) {
+        return true;
+    }
+
+
+    public int getMaxSize() {
+        return maxSize;
     }
 
     public enum RoomMode {

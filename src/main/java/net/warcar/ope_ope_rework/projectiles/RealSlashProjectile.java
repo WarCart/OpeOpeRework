@@ -4,14 +4,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.warcar.ope_ope_rework.OpeReworkMod;
+import net.warcar.ope_ope_rework.init.Effects;
 import xyz.pixelatedw.mineminenomi.abilities.ope.RoomAbility;
 import xyz.pixelatedw.mineminenomi.api.damagesource.ModIndirectEntityDamageSource;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.haki.HakiDataCapability;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.ope.OpeProjectiles;
-import xyz.pixelatedw.mineminenomi.init.ModEffects;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
 public class RealSlashProjectile extends AbilityProjectileEntity {
@@ -31,7 +30,11 @@ public class RealSlashProjectile extends AbilityProjectileEntity {
         if (a == null || a.isPositionInRoom(entity.blockPosition())) {
             boolean hakiCondition = (double) HakiDataCapability.get(entity).getBusoshokuHakiExp() + WyHelper.randomWithRange(0, 5) >= (double)HakiDataCapability.get(this.getThrower()).getBusoshokuHakiExp();
             if (!hakiCondition) {
-                entity.addEffect(new EffectInstance(ModEffects.MOVEMENT_BLOCKED.get(), 600, 0, false, false));
+                entity.addEffect(new EffectInstance(Effects.SLICED.get(), 200, 0, false, false));
+                LegsEntity legs = new LegsEntity(entity.level);
+                legs.moveTo(entity.getX(), entity.getY(), entity.getZ(), entity.yRot, entity.xRot);
+                legs.setOwner(entity);
+                entity.level.addFreshEntity(legs);
             }
         }
     }

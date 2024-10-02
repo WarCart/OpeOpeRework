@@ -9,6 +9,8 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.init.Projectiles;
@@ -62,5 +64,11 @@ public class SilentProjectile extends Entity implements IFlexibleSizeProjectile 
 
     public void setSize(float size) {
         this.entityData.set(SIZE, size);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public boolean shouldRender(double p_145770_1_, double p_145770_3_, double p_145770_5_) {
+        return true;
     }
 }

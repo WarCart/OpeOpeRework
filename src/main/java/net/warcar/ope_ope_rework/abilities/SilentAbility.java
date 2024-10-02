@@ -3,6 +3,7 @@ package net.warcar.ope_ope_rework.abilities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.warcar.ope_ope_rework.OpeReworkMod;
+import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.projectiles.SilentProjectile;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -47,8 +48,8 @@ public class SilentAbility extends Ability {
         silentProjectile = new SilentProjectile(entity.level, entity);
         this.silentProjectile.setSize(this.chargeComponent.getChargeTime() / 4);
         entity.level.addFreshEntity(silentProjectile);
-        silentProjectile.setPos(entity.getX(), entity.getY() - silentProjectile.getSize() / 2, entity.getZ());
-        silentProjectile.setPosAndOldPos(entity.getX(), entity.getY() - silentProjectile.getSize() / 2, entity.getZ());
+        silentProjectile.setPos(entity.getX(), entity.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : silentProjectile.getSize()), entity.getZ());
+        silentProjectile.setPosAndOldPos(entity.getX(), entity.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : silentProjectile.getSize()), entity.getZ());
         continuousComponent.startContinuity(entity, -1);
     }
 

@@ -1,12 +1,14 @@
 package net.warcar.ope_ope_rework.mixins;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.abilities.IRoomMixin;
 import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.init.Abilities;
@@ -32,6 +34,8 @@ import xyz.pixelatedw.mineminenomi.init.ModI18n;
 import xyz.pixelatedw.mineminenomi.init.ModSounds;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
+import java.util.UUID;
+
 @Mixin(RoomAbility.class)
 public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
     @Shadow @Final private ChargeComponent chargeComponent;
@@ -47,6 +51,8 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
 
     private RoomProjectile room;
 
+    private UUID user = Util.NIL_UUID;
+
     public RoomAbilityMixin(AbilityCore<? extends IAbility> core) {
         super(core);
     }
@@ -58,6 +64,10 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
             if (!DevilFruitCapability.get(entity).hasAwakenedFruit() && roomMode == RoomProjectile.RoomMode.R_ROOM) {
                 throw new IllegalStateException("Mode Requirement isn't met");
             }
+        });
+        this.addEquipEvent((livingEntity, ability) -> {
+            this.user = livingEntity.getUUID();
+            OpeReworkMod.LOGGER.info(user);
         });
     }
 
@@ -95,7 +105,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
                 this.roomSize = (int) Math.max(8, (45.0F * this.chargeComponent.getChargeTime() / this.chargeComponent.getMaxChargeTime()));
                 room.setMaxSize(this.roomSize);
                 room.setSize(1);
-                room.setPos(entity.getX(), entity.getY() - roomSize, entity.getZ());
+                room.setPos(entity.getX(), entity.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : roomSize), entity.getZ());
                 entity.level.addFreshEntity(room);
                 entity.level.playSound(null, entity.blockPosition(), ModSounds.ROOM_EXPAND_SFX.get(), SoundCategory.PLAYERS, 5.0F, 1.0F);
                 this.continuousComponent.startContinuity(entity, -1.0F);
@@ -133,7 +143,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
     @Inject(method = "isPositionInRoom", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemPos(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue((this.room != null && pos.closerThan(this.room.position().add(0, this.getROOMSize(), 0), this.roomSize)) || (!this.isContinuous() && CommonConfig.INSTANCE.isOutsideAbilities()
-                && DevilFruitCapability.get(Minecraft.getInstance().player).hasAwakenedFruit()));
+                && DevilFruitCapability.get(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(this.user)).hasAwakenedFruit()));
     }
 
     @Inject(method = "getCenterBlock", at = @At("HEAD"), remap = false, cancellable = true)
@@ -141,7 +151,25 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
         if (this.room == null) {
             cir.setReturnValue(null);
         } else {
-            cir.setReturnValue(this.room.blockPosition().above((int) (this.room.getSize() / 2)));
+            BlockPos blockPos = this.room.blockPosition();
+            if (!CommonConfig.INSTANCE.isWeak()) {
+                blockPos = blockPos.above(this.room.getMaxSize());
+            }
+            cir.setReturnValue(blockPos);
+        }
+    }
+
+    @Override
+    public CompoundNBT save(CompoundNBT nbt) {
+        nbt.putUUID("user", this.user);
+        return super.save(nbt);
+    }
+
+    @Override
+    public void load(CompoundNBT nbt) {
+        super.load(nbt);
+        if (nbt.contains("user")) {
+            this.user = nbt.getUUID("user");
         }
     }
 

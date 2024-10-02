@@ -22,8 +22,8 @@ import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = OpeReworkMod.MOD_ID)
 public class AbilitiesEvents {
-    private static final UUID OPE_LONG_COOLDOWNS = UUID.fromString("dd80c59d-6748-47ff-a5c9-6c2476c6102c");
-    private static final UUID OTO_DAMAGE_LOSS = UUID.fromString("df80c59d-6748-47aff-a5c9-632476c6802c");
+    private static final UUID OPE_LONG_COOLDOWNS = UUID.fromString("76389c98-d2c1-4a9f-82c7-fa185d7d7764");
+    private static final UUID OTO_DAMAGE_LOSS = UUID.fromString("a48c5928-c7c2-465b-9fca-a95620c2141d");
     @SubscribeEvent
     public static void onAbilityUsed(AbilityUseEvent.Pre event) {
         RoomAbility ability = AbilityDataCapability.get(event.getEntityLiving()).getEquippedAbility(RoomAbility.INSTANCE);

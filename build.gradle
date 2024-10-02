@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.1.1-BETA'
+version = '0.1.2-BETA'
 group = 'net.warcar.ope_ope_rework'
 archivesBaseName = 'ope_ope_rework'
 

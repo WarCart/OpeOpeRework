@@ -11,6 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.warcar.ope_ope_rework.abilities.KRoomAbility;
 import net.warcar.ope_ope_rework.models.KRoomModel;
@@ -20,6 +22,7 @@ import xyz.pixelatedw.mineminenomi.init.ModRenderTypes;
 import xyz.pixelatedw.mineminenomi.models.abilities.CubeModel;
 import xyz.pixelatedw.mineminenomi.renderers.abilities.AbilityProjectileRenderer;
 
+@OnlyIn(Dist.CLIENT)
 public class KRoomRenderer<T extends KRoomProjectile, M extends EntityModel<T>> extends AbilityProjectileRenderer<T, M> {
     public KRoomRenderer(EntityRendererManager renderManager) {
         super(renderManager, null, null);

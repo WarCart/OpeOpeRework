@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.render.SphereRenderer;
 
 public class SphereModel extends EntityModel {
@@ -12,7 +13,7 @@ public class SphereModel extends EntityModel {
     public SphereModel() {
         this.sphere = new SphereRenderer(this);
         sphere.setPos(0,0,0);
-        sphere.addSphere(new SphereRenderer.SphereModel(0, 30, 0, 30, 30, 30, 0, 0 , 0, false, 0 , 0));
+        sphere.addSphere(new SphereRenderer.SphereModel(0, CommonConfig.INSTANCE.isWeak() ? 0 : 30, 0, 30, 30, 30, 0, 0 , 0, false, 0 , 0));
     }
 
     public void setupAnim(Entity p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {

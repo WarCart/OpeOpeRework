@@ -1,6 +1,5 @@
 package net.warcar.ope_ope_rework;
 
-import net.minecraft.potion.Effect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -12,12 +11,10 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.init.Abilities;
+import net.warcar.ope_ope_rework.init.Animations;
 import net.warcar.ope_ope_rework.init.Effects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import xyz.pixelatedw.mineminenomi.api.ModRegistries;
-import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
-import xyz.pixelatedw.mineminenomi.api.enums.AbilityCommandGroup;
 
 @Mod(OpeReworkMod.MOD_ID)
 public class OpeReworkMod {
@@ -37,7 +34,9 @@ public class OpeReworkMod {
 
     private void setup(final FMLCommonSetupEvent event) {}
 
-    private void doClientStuff(final FMLClientSetupEvent event) {}
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        event.enqueueWork(Animations::clientSetup);
+    }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {}
 

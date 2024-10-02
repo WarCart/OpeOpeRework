@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CommandMixin",
-    "EventCancelerMixin",
     "ModAbilitiesMixin",
     "OpeHelperMixin",
     "RoomAbilityMixin",
@@ -15,6 +14,7 @@
   },
   "refmap": "mixins.fruit_progression.refmap.json",
   "client": [
+    "EventCancelerMixin",
     "EntityTickableSoundMixin"
   ]
 }
