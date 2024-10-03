@@ -1,19 +1,18 @@
 package net.warcar.ope_ope_rework.mixins;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.warcar.fruit_progression.data.entity.awakening.AwakeningDataCapability;
+import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.abilities.IRoomMixin;
 import net.warcar.ope_ope_rework.config.CommonConfig;
-import net.warcar.ope_ope_rework.init.Abilities;
 import net.warcar.ope_ope_rework.projectiles.RoomProjectile;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,11 +20,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.pixelatedw.mineminenomi.abilities.ope.RoomAbility;
-import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.ContinuousAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
-import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
 import xyz.pixelatedw.mineminenomi.init.ModSounds;
 import xyz.pixelatedw.mineminenomi.packets.server.ability.SUpdateEquippedAbilityPacket;
@@ -50,6 +47,16 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
 
     @Inject(method = "onStartContinuityEvent", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemPreStart(PlayerEntity entity, CallbackInfoReturnable<Boolean> cir) {
+        if (entity.isSteppingCarefully()) {
+            cir.setReturnValue(false);
+            if (this.mode == RoomProjectile.RoomMode.STATIC_ROOM) {
+                this.mode = RoomProjectile.RoomMode.R_ROOM;
+            } else if (this.mode == RoomProjectile.RoomMode.R_ROOM) {
+                this.mode = RoomProjectile.RoomMode.STATIC_ROOM;
+            }
+            entity.sendMessage(new StringTextComponent(this.mode.name()), Util.NIL_UUID);
+            return;
+        }
         if (this.mode.equals(RoomProjectile.RoomMode.R_ROOM)) {
             cir.setReturnValue(false);
             EntityRayTraceResult rayTraceEntities = WyHelper.rayTraceEntities(entity, 20);
@@ -67,6 +74,8 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
                 this.setThreshold(-1);
                 cir.setReturnValue(true);
             }
+        } else {
+            this.setThreshold(2);
         }
     }
 
@@ -77,7 +86,9 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
             if (room != null) {
                 room.remove();
             }
-            if (this.mode.equals(RoomProjectile.RoomMode.STATIC_ROOM)) {
+            if (this.mode.equals(RoomProjectile.RoomMode.STATIC_ROOM) && (this.room == null || !this.room.isAlive())) {
+                this.setThreshold(0.0);
+                WyNetwork.sendToAllTrackingAndSelf(new SUpdateEquippedAbilityPacket(entity, this), entity);
                 room = new RoomProjectile(entity.level, entity);
                 this.roomSize = (int) Math.max(8, (45.0F * this.continueTime / 20));
                 room.setMaxSize(this.roomSize);
@@ -85,8 +96,6 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
                 room.setPos(entity.getX(), entity.getY() - roomSize, entity.getZ());
                 entity.level.addFreshEntity(room);
                 entity.level.playSound(null, entity.blockPosition(), ModSounds.ROOM_EXPAND_SFX.get(), SoundCategory.PLAYERS, 5.0F, 1.0F);
-                this.setThreshold(0.0);
-                WyNetwork.sendToAllTrackingAndSelf(new SUpdateEquippedAbilityPacket(entity, this), entity);
                 cir.setReturnValue(false);
             }
         }
@@ -99,6 +108,7 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
             if (this.room != null && continuousTime % 20 == 0 && !this.isPositionInRoom(player.blockPosition()) && this.mode.equals(RoomProjectile.RoomMode.STATIC_ROOM)) {
                 this.tryStoppingContinuity(player);
             }
+            OpeReworkMod.LOGGER.info(this.room);
         }
     }
 
@@ -113,7 +123,7 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
     @Inject(method = "getROOMSize", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemSize(CallbackInfoReturnable<Integer> cir) {
         if (!this.isContinuous()) {
-            cir.setReturnValue(40);
+            cir.setReturnValue(200);
         }
     }
 

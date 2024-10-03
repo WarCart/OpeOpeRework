@@ -1,5 +1,6 @@
 package net.warcar.ope_ope_rework.projectiles;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +22,7 @@ public class RealSlashProjectile extends AbilityProjectileEntity {
         this.setDamage(-1);
         //this.setPhysical();
         this.setMaxLife(200);
-        this.setBlocksAffectedLimit(1024);
+        this.setCanGetStuckInGround();
         this.onBlockImpactEvent = this::onBlockImpact;
         this.onEntityImpactEvent = this::onEntityImpact;
     }
@@ -38,7 +39,7 @@ public class RealSlashProjectile extends AbilityProjectileEntity {
 
     private void onBlockImpact(BlockPos blockPos) {
         RoomAbility a = AbilityDataCapability.get(this.getThrower()).getEquippedAbility(RoomAbility.INSTANCE);
-        if (a == null || a.isPositionInRoom(blockPos)) {
+        if (a == null || a.isPositionInRoom(blockPos) && this.level.getBlockState(blockPos).getBlock() != Blocks.BEDROCK) {
             this.level.removeBlock(blockPos, true);
         }
     }

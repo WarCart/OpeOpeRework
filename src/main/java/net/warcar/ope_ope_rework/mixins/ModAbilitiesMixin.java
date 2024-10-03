@@ -14,14 +14,10 @@ import xyz.pixelatedw.mineminenomi.items.AkumaNoMiItem;
 public abstract class ModAbilitiesMixin {
     @Inject(method = "registerFruit", at = @At("HEAD"), remap = false, cancellable = true)
     private static <T extends AkumaNoMiItem> void notRegister(T fruit, CallbackInfoReturnable<T> cir) {
-        if (fruit.getDevilFruitName().equalsIgnoreCase("Nagi Nagi No mi") || fruit.getDevilFruitName().equalsIgnoreCase("Ope Ope No mi")) {
+        if (fruit.getDevilFruitName().equalsIgnoreCase("Ope Ope No mi")) {
             cir.setReturnValue(fruit);
         }
     }
-
-    @Shadow
-    @Final
-    public static final AkumaNoMiItem NAGI_NAGI_NO_MI = Abilities.REAL_NAGI;
 
     @Shadow
     @Final

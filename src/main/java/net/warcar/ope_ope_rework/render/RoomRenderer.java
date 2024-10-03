@@ -31,14 +31,14 @@ public class RoomRenderer<T extends RoomProjectile, M extends EntityModel<T>> ex
         return null;
     }
 
-    public static class Factory implements IRenderFactory<AbilityProjectileEntity> {
+    public static class Factory implements IRenderFactory<RoomProjectile> {
         protected EntityModel model;
 
-        public Factory(EntityModel model) {
-            this.model = model;
+        public Factory() {
+            this.model = new SphereModel();
         }
 
-        public EntityRenderer<? super AbilityProjectileEntity> createRenderFor(EntityRendererManager manager) {
+        public EntityRenderer<? super RoomProjectile> createRenderFor(EntityRendererManager manager) {
             return new RoomRenderer(manager, this.model);
         }
     }

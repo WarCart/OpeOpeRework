@@ -8,6 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.ope_ope_rework.init.Abilities;
+import net.warcar.ope_ope_rework.init.Effects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
@@ -25,6 +26,7 @@ public class OpeReworkMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         Abilities.reg();
+        Effects.register();
         MinecraftForge.EVENT_BUS.register(this);
     }
 

@@ -1,8 +1,6 @@
 package net.warcar.ope_ope_rework.init;
 
-import net.warcar.ope_ope_rework.abilities.CalmAbility;
 import net.warcar.ope_ope_rework.abilities.KRoomAbility;
-import net.warcar.ope_ope_rework.abilities.SilentAbility;
 import net.warcar.ope_ope_rework.abilities.TrueAmputateAbility;
 import xyz.pixelatedw.mineminenomi.abilities.ope.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
@@ -15,7 +13,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Abilities {
-    public static final AkumaNoMiItem REAL_NAGI = registerFruit(new AkumaNoMiItem("Nagi Nagi no Mi", 1, FruitType.PARAMECIA, SilentAbility.INSTANCE, CalmAbility.INSTANCE));
     public static final AkumaNoMiItem REAL_OPE = registerFruit(new AkumaNoMiItem("Ope Ope no Mi", 2, FruitType.PARAMECIA, opeAbilities()));
     public static void reg() {
     }

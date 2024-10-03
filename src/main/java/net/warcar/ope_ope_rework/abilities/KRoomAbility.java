@@ -2,33 +2,26 @@ package net.warcar.ope_ope_rework.abilities;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.warcar.fruit_progression.data.entity.awakening.AwakeningDataCapability;
 import net.warcar.fruit_progression.data.entity.awakening.IAwakeningData;
-import net.warcar.ope_ope_rework.OpeReworkMod;
-import net.warcar.ope_ope_rework.init.Abilities;
 import net.warcar.ope_ope_rework.projectiles.KRoomProjectile;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import xyz.pixelatedw.mineminenomi.api.abilities.*;
 import xyz.pixelatedw.mineminenomi.api.damagesource.SourceElement;
 import xyz.pixelatedw.mineminenomi.api.damagesource.SourceHakiNature;
 import xyz.pixelatedw.mineminenomi.api.damagesource.SourceType;
-import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
-import xyz.pixelatedw.mineminenomi.api.helpers.DevilFruitHelper;
 import xyz.pixelatedw.mineminenomi.api.helpers.ItemsHelper;
-import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
-import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.IDevilFruit;
 import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
 import xyz.pixelatedw.mineminenomi.init.ModEffects;
-import xyz.pixelatedw.mineminenomi.init.ModI18n;
+import xyz.pixelatedw.mineminenomi.packets.server.ability.SUpdateEquippedAbilityPacket;
+import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
-public class KRoomAbility extends ContinuousAbility {
-    public static final AbilityCore<KRoomAbility> INSTANCE = new AbilityCore.Builder<>("K-Room", "k_room", AbilityCategory.DEVIL_FRUITS, KRoomAbility::new)
+public class KRoomAbility extends ContinuousAbility implements IExtraUpdateData {
+    public static final AbilityCore<KRoomAbility> INSTANCE = new AbilityCore.Builder<>("K-Room", AbilityCategory.DEVIL_FRUITS, KRoomAbility::new)
             .setSourceType(SourceType.INTERNAL).setSourceElement(SourceElement.SHOCKWAVE).setSourceHakiNature(SourceHakiNature.IMBUING)
-            .setUnlockCheck(KRoomAbility::canUnlock).addDescriptionLine("").build();
+            .setUnlockCheck(KRoomAbility::canUnlock).addDescriptionLine("").setAbilityId("k_room").build();
 
     private boolean charging = false;
     private KRoomProjectile projectile;
@@ -36,24 +29,50 @@ public class KRoomAbility extends ContinuousAbility {
     public KRoomAbility(AbilityCore<KRoomAbility> core) {
         super(core);
         this.onStartContinuityEvent = this::beforeUse;
+        this.afterContinuityStopEvent = this::onEnd;
+        this.beforeContinuityStopEvent = playerEntity -> {
+            if (this.charging && this.getContinueTime() < threshold) {
+                return false;
+            } else if (!this.charging) {
+                this.charging = true;
+                this.continueTime = 0;
+                this.threshold = 40;
+                WyNetwork.sendToAllTrackingAndSelf(new SUpdateEquippedAbilityPacket(playerEntity, this), playerEntity);
+                return false;
+            }
+            return true;
+        };
+        this.duringContinuityEvent = (playerEntity, i) -> {
+            if (this.charging) {
+                this.onChargeTick(playerEntity, i);
+            } else {
+                this.onContinuousTick(playerEntity);
+            }
+        };
     }
 
     private boolean beforeUse(PlayerEntity entity) {
-        return ItemsHelper.isSword(entity.getMainHandItem());
+        if (ItemsHelper.isSword(entity.getMainHandItem())) {
+            this.onStart(entity);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void onEnd(PlayerEntity entity) {
         if (this.projectile != null && this.projectile.isAlive()) {
             this.projectile.kill();
         }
+        this.charging = false;
     }
 
-    private void onContinuousTick(PlayerEntity entity, int i) {
+    private void onContinuousTick(PlayerEntity entity) {
         entity.addEffect(new EffectInstance(ModEffects.MOVEMENT_BLOCKED.get(), 5, 1, false, false));
     }
 
     private void onChargeTick(PlayerEntity entity, int time) {
-        this.onContinuousTick(entity, time);
+        this.onContinuousTick(entity);
         if (time < 10 && this.projectile != null && this.projectile.isAlive()) {
             Vector3d part = entity.position().vectorTo(this.projectile.position());
             double offset = (part.length() / 10) * (10 - time);
@@ -73,11 +92,7 @@ public class KRoomAbility extends ContinuousAbility {
     }
 
     private void onStart(PlayerEntity entity) {
-        if (this.isContinuous()) {
-            this.charging = true;
-            this.continueTime = 0;
-            this.threshold = 40;
-        } else if (!this.charging) {
+        if (!this.charging) {
             this.threshold = -1;
             this.startContinuity(entity);
             this.projectile = new KRoomProjectile(entity.level, entity);
@@ -91,11 +106,17 @@ public class KRoomAbility extends ContinuousAbility {
         return fruit.isAwakened();
     }
 
-    private KRoomProjectile factory(LivingEntity entity) {
-        return new KRoomProjectile(entity.level, entity);
-    }
-
     public boolean isShock() {
         return this.continueTime >= 10 && this.charging;
+    }
+
+    public CompoundNBT getExtraData() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putBoolean("charging", this.charging);
+        return nbt;
+    }
+
+    public void setExtraData(CompoundNBT compoundNBT) {
+        this.charging = compoundNBT.getBoolean("charging");
     }
 }

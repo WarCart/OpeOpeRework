@@ -3,6 +3,9 @@
   "package": "net.warcar.ope_ope_rework.mixins",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ModAbilitiesMixin",
+    "OpeHelperMixin",
+    "RoomAbilityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
