@@ -93,6 +93,10 @@ public class RoomProjectile extends Entity implements IFlexibleSizeProjectile {
         this.entityData.set(SIZE, size);
     }
 
+    public int getMaxSize() {
+        return maxSize;
+    }
+
     public void setMaxSize(int size) {
         this.maxSize = size;
     }

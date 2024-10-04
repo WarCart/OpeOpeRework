@@ -22,6 +22,7 @@ public class TrueAmputateAbility extends Ability {
     public TrueAmputateAbility(AbilityCore<TrueAmputateAbility> core) {
         super(core);
         this.onUseEvent = this::onUse;
+        this.setMaxCooldown(6);
     }
 
     private boolean onUse(PlayerEntity entity) {

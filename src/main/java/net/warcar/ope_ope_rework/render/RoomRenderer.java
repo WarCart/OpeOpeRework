@@ -23,8 +23,11 @@ public class RoomRenderer<T extends RoomProjectile, M extends EntityModel<T>> ex
     }
 
     public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
+        matrixStack.pushPose();
+        matrixStack.scale(entity.getSize(), entity.getSize(), entity.getSize());
         IVertexBuilder builder = buffer.getBuffer(ModRenderTypes.TRANSPARENT_COLOR);
-        this.model.renderToBuffer(matrixStack, builder, packedLight, OverlayTexture.NO_OVERLAY, 0, 0.75f, 1, 1f);
+        this.model.renderToBuffer(matrixStack, builder, packedLight, OverlayTexture.NO_OVERLAY, 0, 0.75f, 1, 0.2f);
+        matrixStack.popPose();
     }
 
     public ResourceLocation getTextureLocation(T p_110775_1_) {

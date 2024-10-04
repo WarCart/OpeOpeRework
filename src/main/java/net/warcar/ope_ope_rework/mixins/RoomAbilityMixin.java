@@ -82,6 +82,9 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
     @Inject(method = "beforeContinuityStopEvent", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemStart(PlayerEntity entity, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
+        if (this.getThreshold() <= 0) {
+            return;
+        }
         if (!entity.level.isClientSide) {
             if (room != null) {
                 room.remove();
@@ -93,7 +96,7 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
                 this.roomSize = (int) Math.max(8, (45.0F * this.continueTime / 20));
                 room.setMaxSize(this.roomSize);
                 room.setSize(1);
-                room.setPos(entity.getX(), entity.getY() - roomSize, entity.getZ());
+                room.setPos(entity.getX(), entity.getY() - (double) this.roomSize / 2, entity.getZ());
                 entity.level.addFreshEntity(room);
                 entity.level.playSound(null, entity.blockPosition(), ModSounds.ROOM_EXPAND_SFX.get(), SoundCategory.PLAYERS, 5.0F, 1.0F);
                 cir.setReturnValue(false);
@@ -108,7 +111,6 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
             if (this.room != null && continuousTime % 20 == 0 && !this.isPositionInRoom(player.blockPosition()) && this.mode.equals(RoomProjectile.RoomMode.STATIC_ROOM)) {
                 this.tryStoppingContinuity(player);
             }
-            OpeReworkMod.LOGGER.info(this.room);
         }
     }
 

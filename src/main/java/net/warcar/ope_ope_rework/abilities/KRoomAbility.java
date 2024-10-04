@@ -49,6 +49,7 @@ public class KRoomAbility extends ContinuousAbility implements IExtraUpdateData 
                 this.onContinuousTick(playerEntity);
             }
         };
+        this.setMaxCooldown(80);
     }
 
     private boolean beforeUse(PlayerEntity entity) {
