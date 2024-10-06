@@ -48,8 +48,8 @@ public class SilentAbility extends Ability {
         silentProjectile = new SilentProjectile(entity.level, entity);
         this.silentProjectile.setSize(this.chargeComponent.getChargeTime() / 4);
         entity.level.addFreshEntity(silentProjectile);
-        silentProjectile.setPos(entity.getX(), entity.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : silentProjectile.getSize()), entity.getZ());
-        silentProjectile.setPosAndOldPos(entity.getX(), entity.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : silentProjectile.getSize()), entity.getZ());
+        silentProjectile.setPos(entity.getX(), entity.getY() - silentProjectile.getSize(), entity.getZ());
+        silentProjectile.setPosAndOldPos(entity.getX(), entity.getY() - silentProjectile.getSize(), entity.getZ());
         continuousComponent.startContinuity(entity, -1);
     }
 

@@ -63,7 +63,7 @@ public class RoomProjectile extends Entity implements IFlexibleSizeProjectile {
         }
         Entity target = this.getTarget();
         if (target != null) {
-            this.teleportTo(target.getX(), target.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : this.getSize()), target.getZ());
+            this.teleportTo(target.getX(), target.getY() - this.getSize(), target.getZ());
         }
     }
 

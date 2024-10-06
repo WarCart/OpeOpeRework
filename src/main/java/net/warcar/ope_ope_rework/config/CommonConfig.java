@@ -10,23 +10,19 @@ public class CommonConfig {
     public static final CommonConfig INSTANCE;
     public static final ForgeConfigSpec SPEC;
     private final ForgeConfigSpec.BooleanValue abilitiesOutside;
-    private final ForgeConfigSpec.BooleanValue weakHardware;
+    private final ForgeConfigSpec.IntValue maxRoomSize;
     private final ForgeConfigSpec.BooleanValue visibleRoom;
     private final ForgeConfigSpec.BooleanValue visibleSilent;
 
     public CommonConfig(ForgeConfigSpec.Builder builder) {
-        this.abilitiesOutside = builder.comment("Allows to use ope abilities outside of room after awakening\nDefault: true").define("Outside Ope abilities", true);
-        this.weakHardware = builder.comment("Uses more easy room computation\nDefault: false").define("Weak Hardware Limitation", false);
-        this.visibleRoom = builder.comment("Only Ope User can see own room\nDefault: false").define("Invisible Room", false);
-        this.visibleSilent = builder.comment("Only Nagi User can see own silent area\nDefault: true").define("Invisible Silent", true);
+        this.abilitiesOutside = builder.comment("Allows to use ope abilities outside of room after awakening \nDefault: true").define("Outside Ope abilities", true);
+        this.maxRoomSize = builder.comment("Defines Maximum size room can get \nDefault: 45").defineInRange("Max Room Size", 45, 8, 250);
+        this.visibleRoom = builder.comment("Only Ope User can see own room \nDefault: false").define("Invisible Room", false);
+        this.visibleSilent = builder.comment("Only Nagi User can see own silent area \nDefault: true").define("Invisible Silent", true);
     }
 
     public boolean isOutsideAbilities() {
         return this.abilitiesOutside.get();
-    }
-
-    public boolean isWeak() {
-        return this.weakHardware.get();
     }
 
     static {
@@ -41,5 +37,9 @@ public class CommonConfig {
 
     public boolean getInvisibleSilent() {
         return visibleSilent.get();
+    }
+
+    public int getMaxRoomSize() {
+        return maxRoomSize.get();
     }
 }

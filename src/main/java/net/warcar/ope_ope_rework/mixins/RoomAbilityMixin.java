@@ -1,8 +1,10 @@
 package net.warcar.ope_ope_rework.mixins;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -30,6 +32,7 @@ import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.PoolComponent;
 import xyz.pixelatedw.mineminenomi.api.util.Interval;
 import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
+import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
 import xyz.pixelatedw.mineminenomi.init.ModSounds;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
@@ -73,8 +76,8 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
 
     @Inject(method = "onUseEvent", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemPreStart(LivingEntity entity, IAbility ability, CallbackInfo ci) {
+        ci.cancel();
         if (this.modeComponent.isMode(RoomProjectile.RoomMode.R_ROOM)) {
-            ci.cancel();
             EntityRayTraceResult rayTraceEntities = WyHelper.rayTraceEntities(entity, 20);
             if (this.continuousComponent.isContinuous()) {
                 this.continuousComponent.stopContinuity(entity);
@@ -90,6 +93,15 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
                 this.continuousComponent.startContinuity(entity, -1);
                 this.poolComponent.startPoolInUse(entity);
             }
+        } else {
+            if (this.chargeComponent.isCharging()) {
+                this.chargeComponent.stopCharging(entity);
+            } else if (this.continuousComponent.isContinuous()) {
+                this.continuousComponent.stopContinuity(entity);
+            } else {
+                entity.level.playSound(null, entity.blockPosition(), ModSounds.ROOM_CREATE_SFX.get(), SoundCategory.PLAYERS, 5.0F, 1.0F);
+                this.chargeComponent.startCharging(entity, (float) EntityStatsCapability.get(entity).getDoriki() / 200);
+            }
         }
     }
 
@@ -102,10 +114,10 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
             }
             if (this.modeComponent.isMode(RoomProjectile.RoomMode.STATIC_ROOM)) {
                 room = new RoomProjectile(entity.level, entity);
-                this.roomSize = (int) Math.max(8, (45.0F * this.chargeComponent.getChargeTime() / this.chargeComponent.getMaxChargeTime()));
+                this.roomSize = Math.min((int) Math.max(8, (this.chargeComponent.getChargeTime())), CommonConfig.INSTANCE.getMaxRoomSize());
                 room.setMaxSize(this.roomSize);
                 room.setSize(1);
-                room.setPos(entity.getX(), entity.getY() - (CommonConfig.INSTANCE.isWeak() ? 0 : roomSize), entity.getZ());
+                room.setPos(entity.getX(), entity.getY() - roomSize, entity.getZ());
                 entity.level.addFreshEntity(room);
                 entity.level.playSound(null, entity.blockPosition(), ModSounds.ROOM_EXPAND_SFX.get(), SoundCategory.PLAYERS, 5.0F, 1.0F);
                 this.continuousComponent.startContinuity(entity, -1.0F);
@@ -136,7 +148,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
     @Inject(method = "getROOMSize", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemSize(CallbackInfoReturnable<Integer> cir) {
         if (!this.isContinuous()) {
-            cir.setReturnValue(40);
+            cir.setReturnValue(CommonConfig.INSTANCE.getMaxRoomSize());
         }
     }
 
@@ -151,11 +163,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
         if (this.room == null) {
             cir.setReturnValue(null);
         } else {
-            BlockPos blockPos = this.room.blockPosition();
-            if (!CommonConfig.INSTANCE.isWeak()) {
-                blockPos = blockPos.above(this.room.getMaxSize());
-            }
-            cir.setReturnValue(blockPos);
+            cir.setReturnValue(this.room.blockPosition());
         }
     }
 

@@ -13,7 +13,7 @@ public class SphereModel extends EntityModel {
     public SphereModel() {
         this.sphere = new SphereRenderer(this);
         sphere.setPos(0,0,0);
-        sphere.addSphere(new SphereRenderer.SphereModel(0, CommonConfig.INSTANCE.isWeak() ? 0 : 30, 0, 30, 30, 30, 0, 0 , 0, false, 0 , 0));
+        sphere.addSphere(new SphereRenderer.SphereModel(0, 30, 0, 30, 30, 30, 0, 0 , 0, false, 0 , 0));
     }
 
     public void setupAnim(Entity p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
