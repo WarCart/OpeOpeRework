@@ -131,7 +131,7 @@ public abstract class RoomAbilityMixin extends ContinuousAbility implements IRoo
 
     @Inject(method = "isPositionInRoom", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemPos(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue((this.room != null && pos.closerThan(this.room.position().add(0, this.getROOMSize(), 0), this.roomSize)) || (!this.isContinuous() && CommonConfig.INSTANCE.isOutsideAbilities()
+        cir.setReturnValue((this.room != null && pos.closerThan(this.room.position().add(0, this.getROOMSize(), 0), this.getROOMSize())) || (!this.isContinuous() && CommonConfig.INSTANCE.isOutsideAbilities()
                 && AwakeningDataCapability.get(Minecraft.getInstance().player).isAwakened()));
     }
 

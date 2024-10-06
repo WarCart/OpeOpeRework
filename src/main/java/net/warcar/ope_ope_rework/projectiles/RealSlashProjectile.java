@@ -23,6 +23,7 @@ public class RealSlashProjectile extends AbilityProjectileEntity {
         //this.setPhysical();
         this.setMaxLife(200);
         this.setCanGetStuckInGround();
+        this.setPassThroughEntities();
         this.onBlockImpactEvent = this::onBlockImpact;
         this.onEntityImpactEvent = this::onEntityImpact;
     }

@@ -1,8 +1,6 @@
 package net.warcar.ope_ope_rework.mixins;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.warcar.fruit_progression.data.entity.awakening.AwakeningDataCapability;
 import net.warcar.ope_ope_rework.config.CommonConfig;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,11 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.pixelatedw.mineminenomi.abilities.ope.OpeHelper;
 import xyz.pixelatedw.mineminenomi.abilities.ope.RoomAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
-import xyz.pixelatedw.mineminenomi.api.abilities.AbilityUseResult;
-import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
-import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
-import xyz.pixelatedw.mineminenomi.init.ModI18n;
 
 @Mixin(OpeHelper.class)
 public abstract class OpeHelperMixin {
