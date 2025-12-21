@@ -13,8 +13,11 @@ import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.init.Abilities;
 import net.warcar.ope_ope_rework.init.Animations;
 import net.warcar.ope_ope_rework.init.Effects;
+import net.warcar.ope_ope_rework.projectiles.RoomProjectile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xyz.pixelatedw.mineminenomi.init.ModNetwork;
+import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
 @Mod(OpeReworkMod.MOD_ID)
 public class OpeReworkMod {

@@ -14,6 +14,9 @@ import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ChargeComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
+import xyz.pixelatedw.mineminenomi.entities.SphereEntity;
+
+import java.awt.*;
 
 public class SilentAbility extends Ability {
     private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText(OpeReworkMod.MOD_ID, "silent", ImmutablePair.of("Creates silent zone around user, sound can't escape it or come in", null));
@@ -46,16 +49,21 @@ public class SilentAbility extends Ability {
             silentProjectile.remove();
         }
         silentProjectile = new SilentProjectile(entity.level, entity);
-        this.silentProjectile.setSize(this.chargeComponent.getChargeTime() / 4);
+        this.silentProjectile.setRadius(this.chargeComponent.getChargeTime() / 4);
+        this.silentProjectile.setColor(new Color(0.25f, 0f, 0.25f, 0.25f));
+        this.silentProjectile.setDetailLevel(32);
+        this.silentProjectile.setAnimationSpeed(1);
         entity.level.addFreshEntity(silentProjectile);
-        silentProjectile.setPos(entity.getX(), entity.getY() - silentProjectile.getSize(), entity.getZ());
-        silentProjectile.setPosAndOldPos(entity.getX(), entity.getY() - silentProjectile.getSize(), entity.getZ());
+        silentProjectile.setPos(entity.getX(), entity.getY(), entity.getZ());
+        silentProjectile.setPosAndOldPos(entity.getX(), entity.getY(), entity.getZ());
         continuousComponent.startContinuity(entity, -1);
     }
 
     private void onContinuityStopped(LivingEntity entity, IAbility ability) {
-        this.cooldownComponent.startCooldown(entity, silentProjectile.getSize() * 20);
-        silentProjectile.remove();
-        silentProjectile = null;
+        if (silentProjectile != null) {
+            this.cooldownComponent.startCooldown(entity, silentProjectile.getRadius() * 20);
+            silentProjectile.remove();
+            silentProjectile = null;
+        }
     }
 }

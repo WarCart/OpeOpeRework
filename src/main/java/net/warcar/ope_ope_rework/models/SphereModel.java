@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
-import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.render.SphereRenderer;
 
 public class SphereModel extends EntityModel {

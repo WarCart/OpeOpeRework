@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.abilities.IRoomMixin;
+import net.warcar.ope_ope_rework.abilities.NagiHelper;
 import net.warcar.ope_ope_rework.mixins.EntityTickableSoundMixin;
 import net.warcar.ope_ope_rework.projectiles.RoomProjectile;
 import net.warcar.ope_ope_rework.projectiles.SilentProjectile;
@@ -44,43 +45,17 @@ public class ClientEvents {
                 return;
             }
             ClientPlayerEntity player = mc.player;
-            List<SilentProjectile> silentProjectiles = WyHelper.getNearbyEntities(player.position(), mc.level, 40, null, SilentProjectile.class);
-            if (!silentProjectiles.isEmpty()) {
-                for (SilentProjectile silentProjectile : silentProjectiles) {
-                    if ((silentProjectile.closerThan(player, silentProjectile.getSize()) && !silentProjectile.position().closerThan(soundPos, silentProjectile.getSize())) || (!silentProjectile.closerThan(player, silentProjectile.getSize()) && silentProjectile.position().closerThan(soundPos, silentProjectile.getSize()))) {
-                        event.setResultSound(null);
-                        return;
-                    }
-                }
-            }
-
-            if (roomSilencer(player, mc, soundPos)) {
+            if (!NagiHelper.canHear(player, soundPos)) {
                 event.setResultSound(null);
             }
         }
-    }
-
-    private static boolean roomSilencer(ClientPlayerEntity player, Minecraft mc, Vector3d soundPos) {
-        List<RoomProjectile> roomProj = WyHelper.getNearbyEntities(player.position(), mc.level, 40, null, RoomProjectile.class);
-        if (!roomProj.isEmpty()) {
-            for (RoomProjectile roomProjectile : roomProj) {
-                if (roomProjectile.getOwner() != null) {
-                    IAbilityData abilityData = AbilityDataCapability.get(roomProjectile.getOwner());
-                    RoomAbility ability = abilityData.getEquippedAbility(RoomAbility.INSTANCE);
-                    if ((ability != null && ((IRoomMixin) ability).isRRoom()) && ((roomProjectile.closerThan(player, roomProjectile.getSize()) && !roomProjectile.position().closerThan(soundPos, roomProjectile.getSize())) || (!roomProjectile.closerThan(player, roomProjectile.getSize()) && roomProjectile.position().closerThan(soundPos, roomProjectile.getSize())))) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     @SubscribeEvent
     public static void chatMuter(ClientChatReceivedEvent event) {
         Minecraft mc = Minecraft.getInstance();
         PlayerEntity sender = mc.level.getPlayerByUUID(event.getSenderUUID());
-        if (sender != null && roomSilencer(mc.player, mc, sender.position())) {
+        if (sender != null && !NagiHelper.canHear(sender, mc.player)) {
             event.setCanceled(true);
         }
     }

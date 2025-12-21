@@ -70,7 +70,6 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
         });
         this.addEquipEvent((livingEntity, ability) -> {
             this.user = livingEntity.getUUID();
-            OpeReworkMod.LOGGER.info(user);
         });
     }
 
@@ -117,7 +116,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
                 this.roomSize = Math.min((int) Math.max(8, (this.chargeComponent.getChargeTime())), CommonConfig.INSTANCE.getMaxRoomSize());
                 room.setMaxSize(this.roomSize);
                 room.setSize(1);
-                room.setPos(entity.getX(), entity.getY() - roomSize, entity.getZ());
+                room.setPos(entity.getX(), entity.getY(), entity.getZ());
                 entity.level.addFreshEntity(room);
                 entity.level.playSound(null, entity.blockPosition(), ModSounds.ROOM_EXPAND_SFX.get(), SoundCategory.PLAYERS, 5.0F, 1.0F);
                 this.continuousComponent.startContinuity(entity, -1.0F);
@@ -154,7 +153,7 @@ public abstract class RoomAbilityMixin extends Ability implements IRoomMixin {
 
     @Inject(method = "isPositionInRoom", at = @At("HEAD"), remap = false, cancellable = true)
     private void newSystemPos(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue((this.room != null && pos.closerThan(this.room.position().add(0, this.getROOMSize(), 0), this.roomSize)) || (!this.isContinuous() && CommonConfig.INSTANCE.isOutsideAbilities()
+        cir.setReturnValue((this.room != null && pos.closerThan(this.room.position(), this.roomSize)) || (!this.isContinuous() && CommonConfig.INSTANCE.isOutsideAbilities()
                 && DevilFruitCapability.get(ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(this.user)).hasAwakenedFruit()));
     }
 

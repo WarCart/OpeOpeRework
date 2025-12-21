@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.pixelatedw.mineminenomi.init.ModAbilities;
 import xyz.pixelatedw.mineminenomi.items.AkumaNoMiItem;
 
-@Mixin(ModAbilities.class)
+@Mixin(value = ModAbilities.class, priority = 999)
 public abstract class ModAbilitiesMixin {
     @Inject(method = "registerFruit", at = @At("HEAD"), remap = false, cancellable = true)
     private static <T extends AkumaNoMiItem> void notRegister(T fruit, CallbackInfoReturnable<T> cir) {

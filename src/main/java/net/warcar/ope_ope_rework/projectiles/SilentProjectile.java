@@ -15,11 +15,11 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.init.Projectiles;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
+import xyz.pixelatedw.mineminenomi.entities.SphereEntity;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.IFlexibleSizeProjectile;
 
-public class SilentProjectile extends Entity implements IFlexibleSizeProjectile {
-    private static final DataParameter<Float> SIZE = EntityDataManager.defineId(SilentProjectile.class, DataSerializers.FLOAT);
+public class SilentProjectile extends SphereEntity implements IFlexibleSizeProjectile {
     private static final DataParameter<Integer> OWNER = EntityDataManager.defineId(SilentProjectile.class, DataSerializers.INT);
 
     public SilentProjectile(EntityType type, World world) {
@@ -40,12 +40,12 @@ public class SilentProjectile extends Entity implements IFlexibleSizeProjectile 
     }
 
     public void defineSynchedData() {
-        this.entityData.define(SIZE, 1f);
+        super.defineSynchedData();
         this.entityData.define(OWNER, -1);
     }
 
     public float getSize() {
-        return this.entityData.get(SIZE);
+        return this.getRadius();
     }
 
     @Override
@@ -63,12 +63,6 @@ public class SilentProjectile extends Entity implements IFlexibleSizeProjectile 
     }
 
     public void setSize(float size) {
-        this.entityData.set(SIZE, size);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public boolean shouldRender(double p_145770_1_, double p_145770_3_, double p_145770_5_) {
-        return true;
+        this.setRadius(size);
     }
 }

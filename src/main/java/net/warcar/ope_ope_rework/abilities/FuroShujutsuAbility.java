@@ -81,12 +81,14 @@ public class FuroShujutsuAbility extends Ability {
         return fruit.getDevilFruitItem() == Abilities.REAL_OPE && fruit.hasAwakenedFruit();
     }
 
-    private void onHitEvent(LivingEntity livingEntity, LivingEntity target, ModDamageSource modDamageSource, IAbility ability) {
+    private boolean onHitEvent(LivingEntity livingEntity, LivingEntity target, ModDamageSource modDamageSource, IAbility ability) {
         if (this.continuousComponent.isContinuous()) {
             modDamageSource.setBypassFriendlyDamage();
             this.target = target;
             this.continuousComponent.stopContinuity(livingEntity);
             this.chargeComponent.startCharging(livingEntity, 24);
+            return true;
         }
+        return false;
     }
 }

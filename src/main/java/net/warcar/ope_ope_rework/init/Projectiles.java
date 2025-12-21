@@ -16,13 +16,14 @@ import net.warcar.ope_ope_rework.render.KRoomRenderer;
 import net.warcar.ope_ope_rework.render.RoomRenderer;
 import net.warcar.ope_ope_rework.render.SilentRender;
 import xyz.pixelatedw.mineminenomi.renderers.abilities.AbilityProjectileRenderer;
+import xyz.pixelatedw.mineminenomi.renderers.entities.SphereRenderer;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Projectiles {
-    public static final RegistryObject<EntityType<SilentProjectile>> SILENT = WyRegistry.registerEntityType("Silent", () -> WyRegistry.createEntityType(SilentProjectile::new).sized(10F, 10F).build("mineminenomi:t"));
+    public static final RegistryObject<EntityType<SilentProjectile>> SILENT = WyRegistry.registerEntityType("Silent", () -> WyRegistry.createEntityType(SilentProjectile::new).sized(0.5f, 0.5f).build("mineminenomi:t"));
 
-    public static final RegistryObject<EntityType<RoomProjectile>> ROOM = WyRegistry.registerEntityType("Room", () -> WyRegistry.createEntityType(RoomProjectile::new).sized(80F, 80F).build("mineminenomi:t"));
+    public static final RegistryObject<EntityType<RoomProjectile>> ROOM = WyRegistry.registerEntityType("Room", () -> WyRegistry.createEntityType(RoomProjectile::new).sized(0.5F, 0.5F).build("mineminenomi:t"));
 
     public static final RegistryObject<EntityType<KRoomProjectile>> K_ROOM = WyRegistry.registerEntityType("K-Room", () -> WyRegistry.createEntityType(KRoomProjectile::new).sized(1F, 1F).build("mineminenomi:t"));
 
@@ -30,7 +31,7 @@ public class Projectiles {
     @SubscribeEvent
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(K_ROOM.get(), new KRoomRenderer.Factory());
-        RenderingRegistry.registerEntityRenderingHandler(ROOM.get(), new RoomRenderer.Factory());
-        RenderingRegistry.registerEntityRenderingHandler(SILENT.get(), new SilentRender.Factory());
+        RenderingRegistry.registerEntityRenderingHandler(SILENT.get(), new SphereRenderer.Factory());
+        RenderingRegistry.registerEntityRenderingHandler(ROOM.get(), new SphereRenderer.Factory());
     }
 }

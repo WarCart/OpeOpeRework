@@ -3,6 +3,7 @@ package net.warcar.ope_ope_rework.abilities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.text.ITextComponent;
+import net.warcar.ope_ope_rework.OpeReworkMod;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
@@ -15,7 +16,7 @@ import xyz.pixelatedw.mineminenomi.init.ModEffects;
 import java.util.function.Predicate;
 
 public class CalmAbility extends PunchAbility2 {
-    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText("mineminenomi", "silent", ImmutablePair.of("Cancels all noises caused by or around the user.", null));
+    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText(OpeReworkMod.MOD_ID, "calm", ImmutablePair.of("Cancels all noises caused the target.", null));
     public static final AbilityCore<CalmAbility> INSTANCE = new AbilityCore.Builder<>("Calm", AbilityCategory.DEVIL_FRUITS, CalmAbility::new).addDescriptionLine(DESCRIPTION).build();
 
     private LivingEntity target = null;
@@ -45,9 +46,10 @@ public class CalmAbility extends PunchAbility2 {
         return 100;
     }
 
-    public void onHitEffect(LivingEntity entity, LivingEntity target, ModDamageSource modDamageSource) {
+    public boolean onHitEffect(LivingEntity entity, LivingEntity target, ModDamageSource modDamageSource) {
         this.target = target;
         this.target.setSilent(true);
+        return true;
     }
 
     public Predicate<LivingEntity> canActivate() {
