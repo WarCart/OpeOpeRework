@@ -1,6 +1,8 @@
 package net.warcar.ope_ope_rework;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -19,18 +21,24 @@ import org.apache.logging.log4j.Logger;
 import xyz.pixelatedw.mineminenomi.init.ModNetwork;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
+/** TODO: Bugs found:<br>
+ * <a href="https://discord.com/channels/1260905774197243926/1452297437279555635/1452297437279555635">Some random incompatibility</a><br>
+ * silence doesn't work<br>
+ * K-Room doesn't hit entities
+ */
 @Mod(OpeReworkMod.MOD_ID)
 public class OpeReworkMod {
     public static final String MOD_ID = "ope_ope_rework";
     public static final Logger LOGGER = LogManager.getLogger();
 
     public OpeReworkMod() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::setup);
+        bus.addListener(this::enqueueIMC);
+        bus.addListener(this::processIMC);
+        bus.addListener(this::doClientStuff);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
-        Abilities.reg();
+        Abilities.reg(bus);
         Effects.register();
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -44,4 +52,8 @@ public class OpeReworkMod {
     private void enqueueIMC(final InterModEnqueueEvent event) {}
 
     private void processIMC(final InterModProcessEvent event) {}
+
+    public static boolean isCartAddonLoaded() {
+        return ModList.get().isLoaded("cartaddon");
+    }
 }

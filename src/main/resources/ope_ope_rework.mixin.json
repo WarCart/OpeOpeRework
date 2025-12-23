@@ -7,14 +7,23 @@
     "ModAbilitiesMixin",
     "OpeHelperMixin",
     "RoomAbilityMixin",
-    "SilentMixin"
+    "SilentMixin",
+    "cartaddon.CancelMoreRegistry",
+    "cartaddon.JinkakuIshokuShujutsuMixin",
+    "cartaddon.ReworkedOpeHelperMixin",
+    "cartaddon.ReworkedShamblesMixin",
+    "cartaddon.ReworkedSpatialSlashProjectileMixin",
+    "cartaddon.ReworkedTaktMixin",
+    "cartaddon.TaktEmergenceMixin",
+    "cartaddon.TaktEmergenceProjectileMixin",
+    "cartaddon.TaktTossProjectileMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "refmap": "mixins.fruit_progression.refmap.json",
   "client": [
-    "EventCancelerMixin",
-    "EntityTickableSoundMixin"
+    "EntityTickableSoundMixin",
+    "EventCancelerMixin"
   ]
 }

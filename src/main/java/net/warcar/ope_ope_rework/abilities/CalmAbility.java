@@ -16,7 +16,7 @@ import xyz.pixelatedw.mineminenomi.init.ModEffects;
 import java.util.function.Predicate;
 
 public class CalmAbility extends PunchAbility2 {
-    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText(OpeReworkMod.MOD_ID, "calm", ImmutablePair.of("Cancels all noises caused the target.", null));
+    private static final ITextComponent[] DESCRIPTION = AbilityHelper.registerDescriptionText(OpeReworkMod.MOD_ID, "calm", ImmutablePair.of("Cancels all noises caused by the target.", null));
     public static final AbilityCore<CalmAbility> INSTANCE = new AbilityCore.Builder<>("Calm", AbilityCategory.DEVIL_FRUITS, CalmAbility::new).addDescriptionLine(DESCRIPTION).build();
 
     private LivingEntity target = null;
