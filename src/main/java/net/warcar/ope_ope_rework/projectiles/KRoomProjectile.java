@@ -7,6 +7,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.abilities.KRoomAbility;
 import net.warcar.ope_ope_rework.init.Effects;
 import net.warcar.ope_ope_rework.init.Projectiles;
@@ -23,10 +24,12 @@ public class KRoomProjectile extends AbilityProjectileEntity {
     public KRoomProjectile(World world, LivingEntity thrower) {
         super(Projectiles.K_ROOM.get(), world, thrower);
         this.setMaxLife(100000);
-        this.setDamage(0);
+        this.setDamage(1);
         this.setPassThroughBlocks();
         this.setPassThroughEntities();
+        this.setCollideWithEntities(true);
         this.onEntityImpactEvent = this::onImpact;
+        this.setEntityCollisionSize(1);
     }
 
     public KRoomProjectile(EntityType type, World world) {
@@ -35,6 +38,7 @@ public class KRoomProjectile extends AbilityProjectileEntity {
 
     private void onImpact(LivingEntity target) {
         this.targets.add(target);
+        OpeReworkMod.LOGGER.info("Impact");
         target.addEffect(new EffectInstance(Effects.OPE_PINNED.get(), 5, 1, false, false));
     }
 

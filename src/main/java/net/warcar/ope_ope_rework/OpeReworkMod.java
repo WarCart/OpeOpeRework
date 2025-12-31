@@ -22,9 +22,7 @@ import xyz.pixelatedw.mineminenomi.init.ModNetwork;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
 /** TODO: Bugs found:<br>
- * <a href="https://discord.com/channels/1260905774197243926/1452297437279555635/1452297437279555635">Some random incompatibility</a><br>
- * silence doesn't work<br>
- * K-Room doesn't hit entities
+ * Takt doesn't work with cartaddon<br>
  */
 @Mod(OpeReworkMod.MOD_ID)
 public class OpeReworkMod {

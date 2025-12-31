@@ -1,0 +1,7 @@
+{
+  "mappings": {
+    "net/warcar/ope_ope_rework/mixins/EntityTickableSoundMixin": {
+      "entity": "field_217863_o"
+    }
+  }
+}

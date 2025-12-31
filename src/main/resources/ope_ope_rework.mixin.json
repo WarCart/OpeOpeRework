@@ -21,7 +21,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "mixins.fruit_progression.refmap.json",
+  "refmap": "ope_ope_rework.refmap.json",
   "client": [
     "EntityTickableSoundMixin",
     "EventCancelerMixin"
