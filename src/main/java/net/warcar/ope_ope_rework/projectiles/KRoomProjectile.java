@@ -38,7 +38,6 @@ public class KRoomProjectile extends AbilityProjectileEntity {
 
     private void onImpact(LivingEntity target) {
         this.targets.add(target);
-        OpeReworkMod.LOGGER.info("Impact");
         target.addEffect(new EffectInstance(Effects.OPE_PINNED.get(), 5, 1, false, false));
     }
 

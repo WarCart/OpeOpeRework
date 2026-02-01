@@ -1,13 +1,13 @@
 package net.warcar.ope_ope_rework.init;
 
 import net.MrMagicalCart.cartaddon.abilities.opeextra.*;
-import net.MrMagicalCart.cartaddon.init.ReworkAbilities;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.abilities.*;
+import net.warcar.ope_ope_rework.abilities.ReworkedTaktAbility;
 import xyz.pixelatedw.mineminenomi.abilities.ope.*;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
@@ -34,9 +34,9 @@ public class Abilities {
     private static AbilityCore<?>[] opeAbilities() {
         if (OpeReworkMod.isCartAddonLoaded()) {
             if (WyHelper.isAprilFirst()) {
-                return new AbilityCore[]{RoomAbility.INSTANCE, ReworkedShamblesAbility.INSTANCE, ReworkedTaktAbility.INSTANCE, ReworkedInjectionShotAbility.INSTANCE, ReworkedCounterShockAbility.INSTANCE, ReworkedMesAbility.INSTANCE, ReworkedGammaKnifeAbility.INSTANCE, ReworkedAmputateAbility.INSTANCE, TaktEmergenceAbility.INSTANCE, FuroShujutsuAbility.INSTANCE, RadioKnifeAbility.INSTANCE, CurtainAbility.INSTANCE, TaktTossAbility.INSTANCE, JinkakuIshokuShujutsuAbility.INSTANCE, KRoomAbility.INSTANCE};
+                return new AbilityCore[]{RoomAbility.INSTANCE, ReworkedShamblesAbility.INSTANCE, ReworkedTaktAbility.INSTANCE, ReworkedInjectionShotAbility.INSTANCE, ReworkedCounterShockAbility.INSTANCE, ReworkedMesAbility.INSTANCE, ReworkedGammaKnifeAbility.INSTANCE, ReworkedAmputateAbility.INSTANCE, FuroShujutsuAbility.INSTANCE, RadioKnifeAbility.INSTANCE, CurtainAbility.INSTANCE, JinkakuIshokuShujutsuAbility.INSTANCE, KRoomAbility.INSTANCE};
             } else {
-                return new AbilityCore[]{RoomAbility.INSTANCE, ReworkedShamblesAbility.INSTANCE, ReworkedTaktAbility.INSTANCE, ReworkedInjectionShotAbility.INSTANCE, ReworkedCounterShockAbility.INSTANCE, ReworkedMesAbility.INSTANCE, ReworkedGammaKnifeAbility.INSTANCE, ReworkedAmputateAbility.INSTANCE, TaktEmergenceAbility.INSTANCE, PerennialYouthOperationAbility.INSTANCE, RadioKnifeAbility.INSTANCE, CurtainAbility.INSTANCE, TaktTossAbility.INSTANCE, JinkakuIshokuShujutsuAbility.INSTANCE, KRoomAbility.INSTANCE};
+                return new AbilityCore[]{RoomAbility.INSTANCE, ReworkedShamblesAbility.INSTANCE, ReworkedTaktAbility.INSTANCE, ReworkedInjectionShotAbility.INSTANCE, ReworkedCounterShockAbility.INSTANCE, ReworkedMesAbility.INSTANCE, ReworkedGammaKnifeAbility.INSTANCE, ReworkedAmputateAbility.INSTANCE, PerennialYouthOperationAbility.INSTANCE, RadioKnifeAbility.INSTANCE, CurtainAbility.INSTANCE, JinkakuIshokuShujutsuAbility.INSTANCE, KRoomAbility.INSTANCE};
             }
         } else {
             if (WyHelper.isAprilFirst()) {

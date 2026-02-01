@@ -13,7 +13,6 @@
     "cartaddon.ReworkedOpeHelperMixin",
     "cartaddon.ReworkedShamblesMixin",
     "cartaddon.ReworkedSpatialSlashProjectileMixin",
-    "cartaddon.ReworkedTaktMixin",
     "cartaddon.TaktEmergenceMixin",
     "cartaddon.TaktEmergenceProjectileMixin",
     "cartaddon.TaktTossProjectileMixin"

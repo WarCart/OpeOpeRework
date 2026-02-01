@@ -9,6 +9,7 @@ import net.warcar.ope_ope_rework.OpeReworkMod;
 import net.warcar.ope_ope_rework.abilities.KRoomAbility;
 import net.warcar.ope_ope_rework.abilities.NagiHelper;
 import net.warcar.ope_ope_rework.init.Abilities;
+import net.warcar.ope_ope_rework.packets.SBonusManagerUpdatePacket;
 import xyz.pixelatedw.mineminenomi.abilities.ope.RoomAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
@@ -21,10 +22,11 @@ import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
 import xyz.pixelatedw.mineminenomi.init.ModAbilities;
 import xyz.pixelatedw.mineminenomi.init.ModAbilityKeys;
 import xyz.pixelatedw.mineminenomi.init.ModEffects;
-import xyz.pixelatedw.mineminenomi.packets.server.SSyncAbilityDataPacket;
-import xyz.pixelatedw.mineminenomi.packets.server.ability.SSyncAbilityPacket;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber
@@ -45,9 +47,13 @@ public class AbilitiesEvents {
                 if (roomAbility == null || !roomAbility.isContinuous()) {
                     manager.addBonus(OPE_LONG_COOLDOWNS, "Ope Awakening Difficulty", BonusOperation.MUL,2);
                 }
+                Set<Map.Entry<UUID, BonusManager.BonusValue>> bonuses = manager.getBonuses();
+                Map<UUID, BonusManager.BonusValue> bonusesMap = new HashMap<>();
+                for (Map.Entry<UUID, BonusManager.BonusValue> entry : bonuses) {
+                    bonusesMap.put(entry.getKey(), entry.getValue());
+                }
+                WyNetwork.sendToAllTrackingAndSelf(new SBonusManagerUpdatePacket(living, eventAbility, component, bonusesMap), living);
             });
-            WyNetwork.sendToAllTrackingAndSelf(new SSyncAbilityPacket(living.getId(), eventAbility), living);
-            WyNetwork.sendToAllTrackingAndSelf(new SSyncAbilityDataPacket(living.getId(), data), living);
         } else if (Lists.newArrayList(ModAbilities.OTO_OTO_NO_MI.getAbilities()).contains(core)) {
             eventAbility.getComponent(ModAbilityKeys.DAMAGE).ifPresent(component -> component.getBonusManager().addBonus(OTO_DAMAGE_LOSS, "No Sound", BonusOperation.MUL, living.hasEffect(ModEffects.SILENT.get()) ? 0 : 1));
             eventAbility.getComponent(ModAbilityKeys.RANGE).ifPresent(component -> {
@@ -56,6 +62,17 @@ public class AbilitiesEvents {
                 manager.removeBonus(OTO_DAMAGE_LOSS);
                 manager.addBonus(OTO_DAMAGE_LOSS, "No Sound", BonusOperation.MUL, living.hasEffect(ModEffects.SILENT.get()) ? 0 : 1);
             });
+        }
+    }
+    @SubscribeEvent
+    public static void onAbilityUsed(AbilityUseEvent.Post event) {
+        LivingEntity living = event.getEntityLiving();
+        IAbilityData data = AbilityDataCapability.get(living);
+        IAbility eventAbility = event.getAbility();
+        AbilityCore<?> core = eventAbility.getCore();
+        if (core != RoomAbility.INSTANCE && core != KRoomAbility.INSTANCE && Lists.newArrayList(Abilities.REAL_OPE.getAbilities()).contains(core)) {
+            //WyNetwork.sendToAllTrackingAndSelf(new SSyncAbilityPacket(living.getId(), eventAbility), living);
+            //WyNetwork.sendToAllTrackingAndSelf(new SSyncAbilityDataPacket(living.getId(), data), living);
         }
     }
 }

@@ -9,9 +9,11 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.warcar.ope_ope_rework.models.SphereModel;
+import net.warcar.ope_ope_rework.projectiles.FloatingBlockEntity;
 import net.warcar.ope_ope_rework.projectiles.KRoomProjectile;
 import net.warcar.ope_ope_rework.projectiles.RoomProjectile;
 import net.warcar.ope_ope_rework.projectiles.SilentProjectile;
+import net.warcar.ope_ope_rework.render.FloatingBlockRenderer;
 import net.warcar.ope_ope_rework.render.KRoomRenderer;
 import net.warcar.ope_ope_rework.render.RoomRenderer;
 import net.warcar.ope_ope_rework.render.SilentRender;
@@ -27,11 +29,14 @@ public class Projectiles {
 
     public static final RegistryObject<EntityType<KRoomProjectile>> K_ROOM = WyRegistry.registerEntityType("K-Room", () -> WyRegistry.createEntityType(KRoomProjectile::new).sized(1F, 1F).build("mineminenomi:t"));
 
+    public static final RegistryObject<EntityType<FloatingBlockEntity>> FLOATING_BLOCK = WyRegistry.registerEntityType("Floating block", () -> WyRegistry.createEntityType(FloatingBlockEntity::new).sized(0.5f, 0.5f).build("mineminenomi:t"));
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(K_ROOM.get(), new KRoomRenderer.Factory());
         RenderingRegistry.registerEntityRenderingHandler(SILENT.get(), new SphereRenderer.Factory());
         RenderingRegistry.registerEntityRenderingHandler(ROOM.get(), new SphereRenderer.Factory());
+        RenderingRegistry.registerEntityRenderingHandler(FLOATING_BLOCK.get(), new FloatingBlockRenderer.Factory());
     }
 }

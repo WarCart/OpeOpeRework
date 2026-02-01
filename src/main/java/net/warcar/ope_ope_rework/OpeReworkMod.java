@@ -15,6 +15,7 @@ import net.warcar.ope_ope_rework.config.CommonConfig;
 import net.warcar.ope_ope_rework.init.Abilities;
 import net.warcar.ope_ope_rework.init.Animations;
 import net.warcar.ope_ope_rework.init.Effects;
+import net.warcar.ope_ope_rework.packets.SBonusManagerUpdatePacket;
 import net.warcar.ope_ope_rework.projectiles.RoomProjectile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +23,7 @@ import xyz.pixelatedw.mineminenomi.init.ModNetwork;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
 /** TODO: Bugs found:<br>
- * Takt doesn't work with cartaddon<br>
+ * Cart's takt toss doesn't work (add reworked)
  */
 @Mod(OpeReworkMod.MOD_ID)
 public class OpeReworkMod {
@@ -39,6 +40,7 @@ public class OpeReworkMod {
         Abilities.reg(bus);
         Effects.register();
         MinecraftForge.EVENT_BUS.register(this);
+        WyNetwork.registerPacket(SBonusManagerUpdatePacket.class, SBonusManagerUpdatePacket::encode, SBonusManagerUpdatePacket::decode, SBonusManagerUpdatePacket::handle);
     }
 
     private void setup(final FMLCommonSetupEvent event) {}
